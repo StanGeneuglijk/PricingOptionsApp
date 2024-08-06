@@ -35,4 +35,4 @@ if pricing_method == 'BSM':
 
         option_price = BSM.black_scholes(option_type=option_type)
         # Displaying call/put option price
-        st.subheader(f'{type} option price: {option_price}')
+        st.subheader(f'Option price: {round(option_price,3)}')
