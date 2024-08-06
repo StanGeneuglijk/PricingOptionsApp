@@ -2,7 +2,7 @@ import streamlit as st
 
 import datetime
 
-from option_pricing import BSMOptionPricing
+from option_pricing.pricing import BSMOptionPricing
 
 st.title("Option Pricing App")
 
