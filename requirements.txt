@@ -1,1 +1,6 @@
 streamlit
+scipy
+datetime
+math
+matplotlib.pyplot
+numpy
