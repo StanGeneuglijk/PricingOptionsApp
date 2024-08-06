@@ -24,7 +24,7 @@ if pricing_method == 'BSM':
     if st.button('Initiate Calculation of Option Price'):
         days_to_maturity = (exercise_date - datetime.datetime.now().date()).days
 
-        # Initiate BSM
+
         BSM = BSMOptionPricing(
             S=stock_price,
             K=strike_price,
@@ -33,5 +33,6 @@ if pricing_method == 'BSM':
             sigma=sigma
         )
 
+        option_price = BSM.black_scholes(option_type=option_type)
         # Displaying call/put option price
-        st.subheader(f'{option_type} option price: {BSM.blackscholes(option_type=option_type)}')
+        st.subheader(f'{type} option price: {option_price}')
