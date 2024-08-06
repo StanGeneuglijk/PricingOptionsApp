@@ -1,6 +1,4 @@
 streamlit
 scipy
-datetime
-math
-matplotlib.pyplot
+matplotlib
 numpy
