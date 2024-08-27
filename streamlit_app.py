@@ -23,7 +23,7 @@ days_to_maturity = (exercise_date - datetime.datetime.now().date()).days
 T = days_to_maturity / 365
 
 if pricing_method == 'BSM':
-    sigma = st.slider('Sigma (%)', 0.0, 100.0, 1.0) / 100
+    sigma = st.slider('Sigma (%)', 0.0, 100.0, 5.0) / 100
 
     if st.button('Calculate Option Price'):
         BSM = BSMOptionPricing(
@@ -37,10 +37,10 @@ if pricing_method == 'BSM':
         st.write(f'Option price (BSM): {round(option_price, 3)}')
 
 elif pricing_method == 'Merton Jump-Diffusion':
-    sigma = st.slider('Sigma (%)', 0.0, 100.0, 1.0) / 100
-    jump_intensity = st.slider('Jump Intensity (λ)', 0.0, 2.0, 0.1)
-    jump_mean = st.slider('Jump Mean (μ)', -2.0, 2.0, 0.0)
-    jump_volatility = st.slider('Jump Volatility (σ_jump)', 0.0, 100.0, 1.0) / 100
+    sigma = st.slider('Sigma (%)', 0.0, 100.0, 5.0) / 100
+    jump_intensity = st.slider('Jump Intensity (λ)', 0.0, 2.0, 0.5)
+    jump_mean = st.slider('Jump Mean (μ)', -2.0, 2.0, 0.5)
+    jump_volatility = st.slider('Jump Volatility (σ_jump)', 0.0, 100.0, 5.0) / 100
 
     if st.button('Calculate Option Price'):
         Merton = MertonJumpOptionPricing(
