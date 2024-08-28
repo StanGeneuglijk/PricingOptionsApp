@@ -93,7 +93,7 @@ if page == "Black-Scholes-Merton":
             '(Visualization) Number of Simulation Paths', 
             min_value=1, 
             max_value=100, 
-            step=5
+            step=1
             )
         
         if st.button('Calculate Simulation Option Price'):
@@ -180,7 +180,7 @@ elif page == "Merton Jump-Diffusion":
             '(Visualization) Number of Simulation Paths', 
             min_value=1, 
             max_value=100, 
-            step=5
+            step=1
             )
         
         if st.button('Calculate Simulation Option Price'):
