@@ -89,7 +89,7 @@ if page == "Black-Scholes-Merton":
             value=1000
             )
         
-        num_paths = st.sidebar.slider(
+        num_paths = st.slider(
             '(Visualization) Number of Simulation Paths', 
             min_value=1, 
             max_value=100, 
@@ -166,21 +166,21 @@ elif page == "Merton Jump-Diffusion":
             'Number of sub-intervals', 
             min_value=50, 
             max_value=500, 
-            value=50
+            steps=50
             )
         
         simulations = st.slider(
             'Number of Simulations', 
             min_value=1000, 
             max_value=10000, 
-            value=1000
+            steps=1000
             )
         
-        num_paths = st.sidebar.slider(
+        num_paths = st.slider(
             '(Visualization) Number of Simulation Paths', 
             min_value=1, 
             max_value=100, 
-            step=5
+            steps=5
             )
         
         if st.button('Calculate Simulation Option Price'):
