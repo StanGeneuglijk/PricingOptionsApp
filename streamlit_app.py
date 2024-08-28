@@ -75,19 +75,28 @@ if page == "Black-Scholes-Merton":
             )
             st.write(f'Option Price: {round(option_price, 4)}')
     else:
+        intervals = st.slider(
+            'Number of sub-intervals', 
+            min_value=50, 
+            max_value=500, 
+            value=50
+            )
+        
+        simulations = st.slider(
+            'Number of Simulations', 
+            min_value=1000, 
+            max_value=10000, 
+            value=1000
+            )
+        
+        num_paths = st.sidebar.slider(
+            '(Visualization) Number of Simulation Paths', 
+            min_value=1, 
+            max_value=100, 
+            step=5
+            )
+        
         if st.button('Calculate Simulation Option Price'):
-            intervals = st.slider(
-                'Number of sub-intervals', 
-                min_value=50, 
-                max_value=500, 
-                value=50
-            )
-            simulations = st.slider(
-                'Number of Simulations', 
-                min_value=1000, 
-                max_value=10000, 
-                value=1000
-            )
             mc_model = MCOptionPricing(
                 S0=stock_price,
                 K=strike_price,
@@ -101,13 +110,6 @@ if page == "Black-Scholes-Merton":
                 option_type=option_type.lower()
             )
             st.write(f'Option Price: {round(option_price, 4)}')
-
-            num_paths = st.sidebar.slider(
-                'Number of Simulation Paths', 
-                min_value=1, 
-                max_value=100, 
-                step=5
-            )
             
             st.write("Simulation Path:")
             st.pyplot(
@@ -160,19 +162,28 @@ elif page == "Merton Jump-Diffusion":
             )
             st.write(f'Option Price: {round(option_price, 4)}')
     else:
+        intervals = st.slider(
+            'Number of sub-intervals', 
+            min_value=50, 
+            max_value=500, 
+            value=50
+            )
+        
+        simulations = st.slider(
+            'Number of Simulations', 
+            min_value=1000, 
+            max_value=10000, 
+            value=1000
+            )
+        
+        num_paths = st.sidebar.slider(
+            '(Visualization) Number of Simulation Paths', 
+            min_value=1, 
+            max_value=100, 
+            step=5
+            )
+        
         if st.button('Calculate Simulation Option Price'):
-            intervals = st.slider(
-                'Number of sub-intervals', 
-                min_value=50, 
-                max_value=500, 
-                value=50
-            )
-            simulations = st.slider(
-                'Number of Simulations', 
-                min_value=1000, 
-                max_value=10000, 
-                value=1000
-            )
             mc_jump_model = MCJumpOptionPricing(
                 S0=stock_price,
                 K=strike_price,
@@ -189,13 +200,6 @@ elif page == "Merton Jump-Diffusion":
                 option_type=option_type.lower()
             )
             st.write(f'Simulated Option Price (Merton Jump-Diffusion): {round(option_price, 4)}')
-
-            num_paths = st.sidebar.slider(
-                'Number of Simulation Paths', 
-                min_value=1, 
-                max_value=100, 
-                step=5
-            )
             
             st.write("Simulation Path:")
             st.pyplot(
