@@ -1,5 +1,6 @@
 import streamlit as st
 import datetime
+import matplotlib.pyplot as plt
 from option_pricing.pricing import BSMOptionPricing, MertonJumpOptionPricing
 from option_pricing.simulation import MCOptionPricing, MCJumpOptionPricing
 
