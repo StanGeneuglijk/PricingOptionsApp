@@ -116,11 +116,9 @@ if page == "Black-Scholes-Merton":
                 st.write(f'Simulated Option Price: {round(option_price, 4)}')
 
                 st.write("Simulation Path:")
-                st.pyplot(
-                    mc_model.plot_simulated_paths(
-                        num_paths_to_plot=num_paths
-                    )
-                )
+                fig, ax = plt.subplots()
+                mc_model.plot_simulated_paths(num_paths_to_plot=num_paths, ax=ax)
+                st.pyplot(fig)
             except Exception as e:
                 st.error(f"Error in simulation: {e}")
 
@@ -212,10 +210,8 @@ elif page == "Merton Jump-Diffusion":
                 st.write(f'Simulated Option Price (Merton Jump-Diffusion): {round(option_price, 4)}')
 
                 st.write("Simulation Path:")
-                st.pyplot(
-                    mc_jump_model.plot_simulated_paths(
-                        num_paths_to_plot=num_paths
-                    )
-                )
+                fig, ax = plt.subplots()
+                mc_jump_model.plot_simulated_paths(num_paths_to_plot=num_paths, ax=ax)
+                st.pyplot(fig)
             except Exception as e:
                 st.error(f"Error in simulation: {e}")
