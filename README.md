@@ -111,7 +111,7 @@ Both models support Monte Carlo simulation for estimating option prices based on
 
 | Theoretical Option Pricing | Simulated Asset Paths |
 |----------------------------|-----------------------|
-| ![B-S-M Pricing](docs/screenshot_bsm.png) | ![Simulated Paths](docs/screenshot_mc.png) |
+| ![B-S-M Pricing](docs/Theoretical_Screenshot.png) | ![Simulated Paths](docs/screenshot_mc.png) |
 
 ## License
 
