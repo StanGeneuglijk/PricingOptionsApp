@@ -92,7 +92,7 @@ class MCOptionPricing:
         except Exception as e:
             raise RuntimeError(f"Error in option pricing: {e}")
 
-    def plot_simulated_paths(self, num_paths_to_plot: int = 10) -> None:
+    def plot_simulated_paths(self, num_paths_to_plot: int = 10):
         """
         Plot a selection of the simulated asset price paths.
 
@@ -100,19 +100,26 @@ class MCOptionPricing:
         -----------
         num_paths_to_plot : int, optional
             Number of paths to plot. Default is 10.
+
+        Returns:
+        --------
+        fig, ax : Matplotlib figure and axes
+            The figure and axes objects with the simulated paths plotted.
         """
         if num_paths_to_plot > self.simulations:
             num_paths_to_plot = self.simulations
 
-        plt.figure(figsize=(10, 6))
-        for i in range(num_paths_to_plot):
-            plt.plot(np.linspace(0, self.T, self.intervals), self.price_array[i, :], lw=1)
+        fig, ax = plt.subplots(figsize=(10, 6))
 
-        plt.xlabel('Time (years)')
-        plt.ylabel('Asset Price')
-        plt.title(f'Simulated Asset Paths ({num_paths_to_plot} paths)')
-        plt.grid(True)
-        plt.show()
+        for i in range(num_paths_to_plot):
+            ax.plot(np.linspace(0, self.T, self.intervals), self.price_array[i, :], lw=1)
+
+        ax.set_xlabel('Time (years)')
+        ax.set_ylabel('Asset Price')
+        ax.set_title(f'Simulated Asset Paths ({num_paths_to_plot} paths)')
+        ax.grid(True)
+
+        return fig, ax
 
 
 class MCJumpOptionPricing:
@@ -219,7 +226,7 @@ class MCJumpOptionPricing:
         except Exception as e:
             raise RuntimeError(f"Error in option pricing with jumps: {e}")
 
-    def plot_simulated_paths(self, num_paths_to_plot: int = 10) -> None:
+    def plot_simulated_paths(self, num_paths_to_plot: int = 10):
         """
         Plot a selection of the simulated asset price paths with jumps.
 
@@ -227,16 +234,23 @@ class MCJumpOptionPricing:
         -----------
         num_paths_to_plot : int, optional
             Number of paths to plot. Default is 10.
+
+        Returns:
+        --------
+        fig, ax : Matplotlib figure and axes
+            The figure and axes objects with the simulated paths plotted.
         """
         if num_paths_to_plot > self.simulations:
             num_paths_to_plot = self.simulations
 
-        plt.figure(figsize=(10, 6))
-        for i in range(num_paths_to_plot):
-            plt.plot(np.linspace(0, self.T, self.intervals), self.price_array[i, :], lw=1)
+        fig, ax = plt.subplots(figsize=(10, 6))
 
-        plt.xlabel('Time (years)')
-        plt.ylabel('Asset Price')
-        plt.title(f'Simulated Asset Paths with Jumps ({num_paths_to_plot} paths)')
-        plt.grid(True)
-        plt.show()
+        for i in range(num_paths_to_plot):
+            ax.plot(np.linspace(0, self.T, self.intervals), self.price_array[i, :], lw=1)
+
+        ax.set_xlabel('Time (years)')
+        ax.set_ylabel('Asset Price')
+        ax.set_title(f'Simulated Asset Paths with Jumps ({num_paths_to_plot} paths)')
+        ax.grid(True)
+
+        return fig, ax

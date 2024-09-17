@@ -1,8 +1,6 @@
 import streamlit as st
 import datetime
-import matplotlib.pyplot as plt
-from option_pricing.pricing import BSMOptionPricing, MertonJumpOptionPricing
-from option_pricing.simulation import MCOptionPricing, MCJumpOptionPricing
+from option_pricing import MCOptionPricing, MCJumpOptionPricing
 
 # Sidebar setup for navigation and input
 st.sidebar.title("Navigation")
@@ -116,9 +114,8 @@ if page == "Black-Scholes-Merton":
                 st.write(f'Simulated Option Price: {round(option_price, 4)}')
 
                 st.write("Simulation Path:")
-                fig, ax = plt.subplots()
-                mc_model.plot_simulated_paths(num_paths_to_plot=num_paths, ax=ax)
-                st.pyplot(fig)
+                fig, ax = mc_model.plot_simulated_paths(num_paths_to_plot=num_paths)
+                st.pyplot(fig)  # Display the plot in Streamlit
             except Exception as e:
                 st.error(f"Error in simulation: {e}")
 
@@ -210,8 +207,7 @@ elif page == "Merton Jump-Diffusion":
                 st.write(f'Simulated Option Price (Merton Jump-Diffusion): {round(option_price, 4)}')
 
                 st.write("Simulation Path:")
-                fig, ax = plt.subplots()
-                mc_jump_model.plot_simulated_paths(num_paths_to_plot=num_paths, ax=ax)
-                st.pyplot(fig)
+                fig, ax = mc_jump_model.plot_simulated_paths(num_paths_to_plot=num_paths)
+                st.pyplot(fig)  # Display the plot in Streamlit
             except Exception as e:
                 st.error(f"Error in simulation: {e}")
