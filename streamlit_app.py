@@ -1,19 +1,18 @@
 import streamlit as st
 import datetime
-import matplotlib.pyplot as plt
 from option_pricing.pricing import BSMOptionPricing, MertonJumpOptionPricing
 from option_pricing.simulation import MCOptionPricing, MCJumpOptionPricing
 
-# Method input
+# Sidebar setup for navigation and input
 st.sidebar.title("Navigation")
 
+# Page Selection
 page = st.sidebar.selectbox(
     "Choose: ", 
-    ["Black-Scholes-Merton", 
-     "Merton Jump-Diffusion"]
+    ["Black-Scholes-Merton", "Merton Jump-Diffusion"]
 )
 
-# Parameters input
+# Input parameters in the sidebar
 st.sidebar.subheader("Parameters:")
 
 option_type = st.sidebar.selectbox(
@@ -53,7 +52,7 @@ exercise_date = st.sidebar.date_input(
     value=datetime.datetime.today() + datetime.timedelta(days=365)
 )
 
-T = (exercise_date - datetime.datetime.now().date()).days / 365
+T = (exercise_date - datetime.datetime.now().date()).days / 365  # Time to expiration in years
 
 # Black-Scholes-Merton Page
 if page == "Black-Scholes-Merton":
@@ -63,60 +62,66 @@ if page == "Black-Scholes-Merton":
 
     if not use_simulation:
         if st.button('Calculate Theoretical Option Price'):
-            BSM = BSMOptionPricing(
-                S=stock_price,
-                K=strike_price,
-                T=T,
-                R=risk_free_rate,
-                sigma=sigma
-            )
-            option_price = BSM.black_scholes(
-                option_type=option_type
-            )
-            st.write(f'Option Price: {round(option_price, 4)}')
+            try:
+                BSM = BSMOptionPricing(
+                    S=stock_price,
+                    K=strike_price,
+                    T=T,
+                    R=risk_free_rate,
+                    sigma=sigma
+                )
+                option_price = BSM.black_scholes(
+                    option_type=option_type.lower()
+                )
+                st.write(f'Option Price: {round(option_price, 4)}')
+            except Exception as e:
+                st.error(f"Error calculating option price: {e}")
     else:
         intervals = st.slider(
             'Number of sub-intervals', 
             min_value=50, 
             max_value=500, 
             step=50
-            )
+        )
         
         simulations = st.slider(
             'Number of Simulations', 
             min_value=1000, 
             max_value=10000, 
             step=1000
-            )
+        )
         
         num_paths = st.slider(
             '(Visualization) Number of Simulation Paths', 
             min_value=1, 
             max_value=100, 
             step=1
-            )
+        )
         
         if st.button('Calculate Simulation Option Price'):
-            mc_model = MCOptionPricing(
-                S0=stock_price,
-                K=strike_price,
-                T=T,
-                R=risk_free_rate,
-                sigma=sigma,
-                intervals=intervals,
-                simulations=simulations
-            )
-            option_price = mc_model.pricing(
-                option_type=option_type.lower()
-            )
-            st.write(f'Option Price: {round(option_price, 4)}')
-            
-            st.write("Simulation Path:")
-            st.pyplot(
-                mc_model.plot_simulated_paths(
-                    num_paths_to_plot=num_paths
+            try:
+                mc_model = MCOptionPricing(
+                    S0=stock_price,
+                    K=strike_price,
+                    T=T,
+                    R=risk_free_rate,
+                    sigma=sigma,
+                    intervals=intervals,
+                    simulations=simulations
                 )
-            )
+                option_price = mc_model.pricing(
+                    option_type=option_type.lower()
+                )
+                st.write(f'Simulated Option Price: {round(option_price, 4)}')
+
+                st.write("Simulation Path:")
+                st.pyplot(
+                    mc_model.plot_simulated_paths(
+                        num_paths_to_plot=num_paths
+                    )
+                )
+            except Exception as e:
+                st.error(f"Error in simulation: {e}")
 
 # Merton Jump-Diffusion Page
 elif page == "Merton Jump-Diffusion":
@@ -147,63 +152,69 @@ elif page == "Merton Jump-Diffusion":
 
     if not use_simulation:
         if st.button('Calculate Theoretical Option Price'):
-            Merton = MertonJumpOptionPricing(
-                S=stock_price,
-                K=strike_price,
-                T=T,
-                R=risk_free_rate,
-                sigma=sigma,
-                lambda_=jump_intensity,
-                mu_jump=jump_mean,
-                sigma_jump=jump_volatility
-            )
-            option_price = Merton.merton_jump_diffusion(
-                option_type=option_type
-            )
-            st.write(f'Option Price: {round(option_price, 4)}')
+            try:
+                Merton = MertonJumpOptionPricing(
+                    S=stock_price,
+                    K=strike_price,
+                    T=T,
+                    R=risk_free_rate,
+                    sigma=sigma,
+                    lambda_=jump_intensity,
+                    mu_jump=jump_mean,
+                    sigma_jump=jump_volatility
+                )
+                option_price = Merton.merton_jump_diffusion(
+                    option_type=option_type.lower()
+                )
+                st.write(f'Option Price: {round(option_price, 4)}')
+            except Exception as e:
+                st.error(f"Error calculating option price: {e}")
     else:
         intervals = st.slider(
             'Number of sub-intervals', 
             min_value=50, 
             max_value=500, 
             step=50
-            )
+        )
         
         simulations = st.slider(
             'Number of Simulations', 
             min_value=1000, 
             max_value=10000, 
             step=1000
-            )
+        )
         
         num_paths = st.slider(
             '(Visualization) Number of Simulation Paths', 
             min_value=1, 
             max_value=100, 
             step=1
-            )
+        )
         
         if st.button('Calculate Simulation Option Price'):
-            mc_jump_model = MCJumpOptionPricing(
-                S0=stock_price,
-                K=strike_price,
-                T=T,
-                R=risk_free_rate,
-                sigma=sigma,
-                intervals=intervals,
-                simulations=simulations,
-                lambda_=jump_intensity,
-                mu_jump=jump_mean,
-                sigma_jump=jump_volatility
-            )
-            option_price = mc_jump_model.pricing(
-                option_type=option_type.lower()
-            )
-            st.write(f'Simulated Option Price (Merton Jump-Diffusion): {round(option_price, 4)}')
-            
-            st.write("Simulation Path:")
-            st.pyplot(
-                mc_jump_model.plot_simulated_paths(
-                    num_paths_to_plot=num_paths
+            try:
+                mc_jump_model = MCJumpOptionPricing(
+                    S0=stock_price,
+                    K=strike_price,
+                    T=T,
+                    R=risk_free_rate,
+                    sigma=sigma,
+                    intervals=intervals,
+                    simulations=simulations,
+                    lambda_=jump_intensity,
+                    mu_jump=jump_mean,
+                    sigma_jump=jump_volatility
                 )
-            )
+                option_price = mc_jump_model.pricing(
+                    option_type=option_type.lower()
+                )
+                st.write(f'Simulated Option Price (Merton Jump-Diffusion): {round(option_price, 4)}')
+
+                st.write("Simulation Path:")
+                st.pyplot(
+                    mc_jump_model.plot_simulated_paths(
+                        num_paths_to_plot=num_paths
+                    )
+                )
+            except Exception as e:
+                st.error(f"Error in simulation: {e}")
