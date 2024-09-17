@@ -11,6 +11,8 @@ This repository implements financial option pricing models using both theoretica
 
 ## Installation
 
+### Using Python
+
 1. Clone the repository:
     ```bash
     git clone https://github.com/your_username/option_pricing.git
@@ -28,8 +30,39 @@ This repository implements financial option pricing models using both theoretica
 
 4. Run the Streamlit app:
     ```bash
-    streamlit run app.py
+    streamlit run streamlit_app.py
     ```
+
+### Using Docker
+
+If you prefer to use Docker to run the app without worrying about the environment setup, follow these steps:
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your_username/option_pricing.git
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd option_pricing
+    ```
+
+3. Build the Docker image:
+    ```bash
+    docker build -t pricing_options_app .
+    ```
+
+4. Run the Docker container:
+    ```bash
+    docker run -p 8501:8501 pricing_options_app
+    ```
+
+5. Access the app in your browser by navigating to:
+    ```
+    http://localhost:8501
+    ```
+
+This method ensures that anyone can run the application with consistent dependencies and environment settings, without manually installing Python packages.
 
 ## Usage
 

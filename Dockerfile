@@ -1,22 +1,23 @@
-# Use an official Python runtime as the base image
-FROM python:3.11-slim-bullseye
+# Use the official Python image from the Docker Hub (version 3.11 as in your devcontainer setup)
+FROM python:3.11-slim
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy the requirements.txt file to install dependencies
+COPY requirements.txt ./ 
 
-# Install system dependencies (if needed)
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
+# Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 8501 for Streamlit
+# Install Streamlit (in case it's not in requirements.txt)
+RUN pip install --no-cache-dir streamlit
+
+# Copy the rest of your app code into the container
+COPY . .
+
+# Expose the port Streamlit runs on
 EXPOSE 8501
 
-# Run Streamlit when the container launches
-CMD ["streamlit", "run", "streamlit_app.py", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
+# Command to run the Streamlit app
+CMD ["streamlit", "run", "streamlit_app.py", "--server.enableCORS", "false", "--server.enableXsrfProtection", "false"]
