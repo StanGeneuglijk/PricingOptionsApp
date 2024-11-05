@@ -61,6 +61,39 @@ sigma = (
     / 100
 )
 
+if page == "Merton Jump-Diffusion":
+    st.sidebar.header("Jump Parameters")
+    jump_intensity = st.sidebar.slider(
+        "Jump Intensity (λ):",
+        min_value=0.0,
+        max_value=1.0,
+        step=0.01,
+        value=0.1,
+        help="Average number of jumps per year.",
+    )
+
+    jump_mean = st.sidebar.slider(
+        "Jump Mean (μj):",
+        min_value=-0.5,
+        max_value=0.5,
+        step=0.01,
+        value=0.0,
+        help="Mean of the logarithm of the jump size.",
+    )
+
+    jump_volatility = (
+        st.sidebar.slider(
+            "Jump Volatility (σj) [%]:",
+            min_value=0.0,
+            max_value=100.0,
+            step=1.0,
+            value=20.0,
+            help="Volatility of the jump size, as a percentage.",
+        )
+        / 100
+    )
+
+st.sidebar.header("Expiration")
 exercise_date = st.sidebar.date_input(
     "Exercise Date (T):",
     min_value=datetime.date.today(),
@@ -68,7 +101,7 @@ exercise_date = st.sidebar.date_input(
     help="The expiration date of the option.",
 )
 
-T = (exercise_date - datetime.date.today()).days / 365
+T = (exercise_date - datetime.date.today()).days / 365  #
 
 if page == "Black-Scholes-Merton":
     st.title("Black-Scholes-Merton Option Pricing Model")
@@ -172,38 +205,6 @@ elif page == "Merton Jump-Diffusion":
     use_simulation = st.sidebar.checkbox(
         "Use Monte Carlo Simulation",
         help="Check to use Monte Carlo simulation instead of the analytical formula.",
-    )
-
-    st.sidebar.header("Jump Parameters")
-
-    jump_intensity = st.sidebar.slider(
-        "Jump Intensity (λ):",
-        min_value=0.0,
-        max_value=1.0,
-        step=0.01,
-        value=0.1,
-        help="Average number of jumps per year.",
-    )
-
-    jump_mean = st.sidebar.slider(
-        "Jump Mean (μj):",
-        min_value=-0.5,
-        max_value=0.5,
-        step=0.01,
-        value=0.0,
-        help="Mean of the logarithm of the jump size.",
-    )
-
-    jump_volatility = (
-        st.sidebar.slider(
-            "Jump Volatility (σj) [%]:",
-            min_value=0.0,
-            max_value=100.0,
-            step=1.0,
-            value=20.0,
-            help="Volatility of the jump size, as a percentage.",
-        )
-        / 100
     )
 
     if not use_simulation:
